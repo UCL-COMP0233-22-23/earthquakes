@@ -27,31 +27,35 @@ def get_data():
     # To understand the structure of this text, you may want to save it
     # to a file and open it in VS Code or a browser.
     # See the README file for more information.
-    ...
+    import json
+    data = json.loads(text)
+    with open("earthquakes.json", "w") as f:
+        f.write(json.dumps(data))
 
     # We need to interpret the text to get values that we can work with.
     # What format is the text in? How can we load the values?
-    return ...
+    return data["features"]
 
 def count_earthquakes(data):
     """Get the total number of earthquakes in the response."""
-    return ...
+    return len(data)
 
 
 def get_magnitude(earthquake):
     """Retrive the magnitude of an earthquake item."""
-    return ...
+    return earthquake["properties"]["mag"]
 
 
 def get_location(earthquake):
     """Retrieve the latitude and longitude of an earthquake item."""
     # There are three coordinates, but we don't care about the third (altitude)
-    return ...
+    return earthquake["geometry"]["coordinates"][:2]
 
 
 def get_maximum(data):
     """Get the magnitude and location of the strongest earthquake in the data."""
-    ...
+    strongest = max(data, key=lambda x: get_magnitude(x))
+    return get_magnitude(strongest), get_location(strongest)
 
 
 # With all the above functions defined, we can now call them and get the result
