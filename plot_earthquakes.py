@@ -64,11 +64,13 @@ def get_magnitudes_per_year(earthquakes):
 
 def plot_average_magnitude_per_year(earthquakes):
     res = get_magnitudes_per_year(earthquakes)
-    years = []
-    num = []
-    for k,v in res.items():
-        years.append(k[2:])
-        num.append(average(v))
+    # years = []
+    # num = []
+    # for k,v in res.items():
+    #     years.append(k[2:])
+    #     num.append(average(v))
+    years = res.keys()
+    num = [average(i) for i in res.values()]
     plt.xticks(rotation=90)    
     plt.plot(years,num,'bo')
     plt.title('Plot: average magnitude')
@@ -77,13 +79,14 @@ def plot_average_magnitude_per_year(earthquakes):
 
 def plot_number_per_year(earthquakes):
     res = get_magnitudes_per_year(earthquakes)
-    years = []
-    num = []
-    print(type(res))
-    for k,v in res.items():
-        years.append(k[2:])
-        num.append(len(v))
-    # print(years)
+    # years = []
+    # num = []
+    # # print(type(res))
+    # for k,v in res.items():
+    #     years.append(k[2:])
+    #     num.append(len(v))
+    years = res.keys()
+    num = [len(i) for i in res.values()]
     plt.xticks(rotation=90)
     plt.plot(years,num, 'ro')
     plt.title('Plot: number per year')
