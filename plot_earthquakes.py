@@ -127,8 +127,6 @@ def plot_number_per_year(data):
 # # Get the data we will work with
 quakes = get_data()
 
-# # Plot the results - this is not perfect since the x axis is shown as real
-# # numbers rather than integers, which is what we would prefer!
 plot_number_per_year(quakes)
 plt.clf()  # This clears the figure, so that we don't overlay the two plots
 plot_average_magnitude_per_year(quakes)
