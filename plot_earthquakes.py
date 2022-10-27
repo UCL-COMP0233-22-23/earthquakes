@@ -101,12 +101,27 @@ def plot_average_magnitude_per_year(earthquakes):
     plt.xticks(tick_idx, list(avg_mag_per_year.keys()).sort(), rotation=90)
     plt.xlabel('Year')
     plt.ylabel('Average magnitude per year')
+    plt.show()
     plt.savefig('Average_Plot.jpeg')
 
 
 def plot_number_per_year(earthquakes):
-    pass
+    no_per_year = get_magnitudes_per_year(earthquakes)
+    # Extract no. quakes per year
+    for keys in no_per_year:
+        value = no_per_year[keys]
+        no_per_year[keys] = len(value)
 
+    plt.bar(no_per_year.keys(), no_per_year.values())
+    #plt.xticks([avg_mag_per_year.keys()])
+    plt.xlabel('Year')
+    plt.ylabel('Number of earthquakes')
+    plt.grid()
+    plt.show()
+    #plt.savefig('Number_Plot.jpeg')
+    
+
+    print(no_per_year)
 
 
 # Get the data we will work with
