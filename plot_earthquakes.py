@@ -67,10 +67,7 @@ def plot_average_magnitude_per_year(earthquakes):
     plt.title('Average earthquake magnitude per year')
     plt.ylabel('Average magnitude')
     plt.xlabel('Year')
-<<<<<<< HEAD
-=======
     plt.xticks(np.arange(np.min(list(years)), np.max(list(years))+1, 1.0), rotation=45)
->>>>>>> plots-pkruzikova-jtcl24
     plt.show()
 
 def plot_number_per_year(earthquakes):
@@ -85,10 +82,7 @@ def plot_number_per_year(earthquakes):
     plt.title('Number of earthquakes per year')
     plt.ylabel('Earthquakes')
     plt.xlabel('Year')
-<<<<<<< HEAD
-=======
     plt.xticks(np.arange(np.min(list(years)), np.max(list(years))+1, 1.0), rotation=45)
->>>>>>> plots-pkruzikova-jtcl24
     plt.show()
 
 
