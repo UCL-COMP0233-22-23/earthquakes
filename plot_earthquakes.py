@@ -85,14 +85,24 @@ def plot_average_magnitude_per_year(earthquakes):
         value = avg_mag_per_year[keys]
         avg_mag_per_year[keys] = sum(value)/len(value)
 
-    #print(avg_mag_per_year)
     plt.bar(avg_mag_per_year.keys(), avg_mag_per_year.values())
-    #plt.xticks([avg_mag_per_year.keys()])
+
+        
+    tick_idx = list(range(
+        min(avg_mag_per_year.keys()),
+        max(avg_mag_per_year.keys())+1
+    ))
+    
+    # Add an entry of 0 in the case that no earthquake occurs
+    for idx in tick_idx:
+        if idx not in avg_mag_per_year.keys():
+            avg_mag_per_year[idx] = 0
+    
+    plt.xticks(tick_idx, list(avg_mag_per_year.keys()).sort(), rotation=90)
     plt.xlabel('Year')
     plt.ylabel('Average magnitude per year')
     plt.savefig('Average_Plot.jpeg')
-    print(avg_mag_per_year)
-    return avg_mag_per_year
+
 
 def plot_number_per_year(earthquakes):
     pass
