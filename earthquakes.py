@@ -39,9 +39,7 @@ def get_data(dest_path):
 ### EDA
 
 path = os.getcwd()
-data = get_data(dest_path = os.path.join(path, "earthquakes"))
-
-
+data = get_data(dest_path = path)
 
 
 
@@ -62,6 +60,8 @@ def get_magnitude(earthquake, data):
     all_id = [entry["id"] for entry in all_eq]
     ind = all_id.index(earthquake)
     magnitude = all_eq[ind]["properties"]["mag"]
+
+
     return magnitude
 
 get_magnitude("usp000bf1x", data)
@@ -110,3 +110,101 @@ print(f"The strongest earthquake was at {max_location} with magnitude {max_magni
 
 # Loaded 120
 # The strongest earthquake was at (-2.15, 52.52) with magnitude 4.8
+
+
+#### plotting the earthquakes ####
+
+from datetime import date
+
+import matplotlib.pyplot as plt
+
+
+def get_data():
+    """Retrieve the data we will be working with."""
+    ...
+
+
+def get_year(earthquake):
+    """Extract the year in which an earthquake happened."""
+    timestamp = earthquake['properties']['time']
+    # The time is given in a strange-looking but commonly-used format.
+    # To understand it, we can look at the documentation of the source data:
+    # https://earthquake.usgs.gov/data/comcat/index.php#time
+    # Fortunately, Python provides a way of interpreting this timestamp:
+    # (Question for discussion: Why do we divide by 1000?)
+    year = date.fromtimestamp(timestamp/1000).year
+    return year
+
+get_year(data["features"][0])
+
+all_years = [get_year(earthquake) for earthquake in data["features"]]
+
+unique_years = list(set(all_years))
+
+unique_years = sorted(unique_years)
+
+count = 0
+for earthquake in data["features"]:
+    if get_year(earthquake) == 2017:
+        count += 1
+    
+print(count)
+
+frequency ={}
+for i in unique_years:
+    count = 0
+    for j in all_years:
+        if j == i:
+            count += 1
+    frequency[i] = count
+    print(i, count)
+
+print(frequency)
+
+import matplotlib.pyplot as plt
+
+plt.plot(frequency.keys(), frequency.values(), "o")
+plt.show()
+
+
+
+
+#num_earthquakes = {}
+#num_earthquakes['year1'] = 
+2000: 1, 2001: 3
+# {year1: count1, year2: count2,...}
+#[{'year': x, 'count': y},...]
+
+
+def get_magnitude(earthquake):
+    """Retrive the magnitude of an earthquake item."""
+    ...
+
+
+# This is function you may want to create to break down the computations,
+# although it is not necessary. You may also change it to something different.
+def get_magnitudes_per_year(earthquakes):
+    """Retrieve the magnitudes of all the earthquakes in a given year.
+    
+    Returns a dictionary with years as keys, and lists of magnitudes as values.
+    """
+    ...
+
+
+def plot_average_magnitude_per_year(earthquakes):
+    ...
+
+
+def plot_number_per_year(earthquakes):
+    ...
+
+
+
+# Get the data we will work with
+quakes = get_data()['features']
+
+# Plot the results - this is not perfect since the x axis is shown as real
+# numbers rather than integers, which is what we would prefer!
+plot_number_per_year(quakes)
+plt.clf()  # This clears the figure, so that we don't overlay the two plots
+plot_average_magnitude_per_year(quakes)
