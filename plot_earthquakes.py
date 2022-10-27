@@ -65,7 +65,7 @@ def get_magnitudes_per_year(earthquakes):
     """
     
     magnitudes = [get_magnitude(quake) for quake in earthquakes]
-    years = [get_year(quake) for quake in earthquakes]
+    years = [int(get_year(quake)) for quake in earthquakes]
     
     result = {}
     
@@ -76,13 +76,23 @@ def get_magnitudes_per_year(earthquakes):
             result[y] = [m]
             
     return result
-        
-    
-
 
 def plot_average_magnitude_per_year(earthquakes):
-    pass
+    
+    avg_mag_per_year = get_magnitudes_per_year(earthquakes)
+    # Average years
+    for keys in avg_mag_per_year:
+        value = avg_mag_per_year[keys]
+        avg_mag_per_year[keys] = sum(value)/len(value)
 
+    #print(avg_mag_per_year)
+    plt.bar(avg_mag_per_year.keys(), avg_mag_per_year.values())
+    #plt.xticks([avg_mag_per_year.keys()])
+    plt.xlabel('Year')
+    plt.ylabel('Average magnitude per year')
+    plt.savefig('Average_Plot.jpeg')
+    print(avg_mag_per_year)
+    return avg_mag_per_year
 
 def plot_number_per_year(earthquakes):
     pass
