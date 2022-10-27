@@ -30,7 +30,7 @@ def get_data():
     # to a file and open it in VS Code or a browser.
     # See the README file for more information.
     with open('earthquakes_file.json','w') as inputfile:
-        json.dump(earthquakes_data,inputfile,indent=10)
+        json.dump(earthquakes_data,inputfile,indent=4)
     # We need to interpret the text to get values that we can work with.
     # What format is the text in? How can we load the values?
    
