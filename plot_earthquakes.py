@@ -132,13 +132,6 @@ def plot_number_per_year(earthquakes):
     plt.grid()
     plt.savefig('Average_year_Plot.jpeg')
     plt.show()
-<<<<<<< HEAD
-=======
-    #plt.savefig('Number_Plot.jpeg')
-
-    print(no_per_year)
->>>>>>> 05ab8e7 (Minor changes to order of savefig/show)
-
 
 # Get the data we will work with
 quakes = get_data()['features']
