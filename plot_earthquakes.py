@@ -49,7 +49,7 @@ def get_magnitudes_per_year(earthquakes):
     """
     magnitudes_per_year = {}
     for earthquake in earthquakes:
-            eq_year = get_year(earthquake)
+            eq_year = int(get_year(earthquake))
             eq_mag = get_magnitude(earthquake)
             if (eq_year in magnitudes_per_year):
                 magnitudes_per_year[eq_year].append(eq_mag)
@@ -72,8 +72,14 @@ def plot_average_magnitude_per_year(earthquakes):
 
 
 def plot_number_per_year(earthquakes):
-    ...
-
+    magnitudes_per_year = get_magnitudes_per_year(earthquakes)
+    freq_per_year = {}
+    for year in magnitudes_per_year:
+        freq_per_year[year] = len(magnitudes_per_year[year])
+    x = list(freq_per_year.keys())
+    y = list(freq_per_year.values())
+    plt.plot(x, y)
+    plt.show()
 
 
 # Get the data we will work with
@@ -82,6 +88,6 @@ quakes = get_data()['features']
 
 # Plot the results - this is not perfect since the x axis is shown as real
 # numbers rather than integers, which is what we would prefer!
-#plot_number_per_year(quakes)
+plot_number_per_year(quakes)
 plt.clf()  # This clears the figure, so that we don't overlay the two plots
 plot_average_magnitude_per_year(quakes)
