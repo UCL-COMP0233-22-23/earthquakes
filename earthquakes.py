@@ -2,8 +2,9 @@
 # over the Internet.
 # However, we will use a more powerful and simpler library called requests.
 # This is external library that you may need to install first.
+import datetime
 import requests
-
+import matplotlib.pyplot as plt
 
 def get_data():
     # With requests, we can ask the web service for the data.
@@ -36,6 +37,11 @@ def get_data():
     # What format is the text in? How can we load the values?
     return data["features"]
 
+def get_year(data):
+    timestamp = data["properties"]["time"]
+    year = datetime.date.fromtimestamp(timestamp / 1000).year
+    return year
+
 def count_earthquakes(data):
     """Get the total number of earthquakes in the response."""
     return len(data)
@@ -63,3 +69,43 @@ data = get_data()
 print(f"Loaded {count_earthquakes(data)}")
 max_magnitude, max_location = get_maximum(data)
 print(f"The strongest earthquake was at {max_location} with magnitude {max_magnitude}")
+
+
+
+def number_of_earthquakes_per_year(data):
+    earthquakes_per_year = {}
+    for earthquake in data:
+        year = get_year(earthquake)
+        if year in earthquakes_per_year:
+            earthquakes_per_year[year] += 1
+        else:
+            earthquakes_per_year[year] = 1
+    return earthquakes_per_year
+
+print(number_of_earthquakes_per_year(data))
+
+def average_magitude_per_year(data):
+    earthquakes_per_year = {}
+    for earthquake in data:
+        year = get_year(earthquake)
+        if year in earthquakes_per_year:
+            earthquakes_per_year[year].append(get_magnitude(earthquake))
+        else:
+            earthquakes_per_year[year] = [get_magnitude(earthquake)]
+    return {year: sum(magnitudes) / len(magnitudes) for year, magnitudes in earthquakes_per_year.items()}
+
+print(average_magitude_per_year(data))
+
+def plot_earthquakes_per_year(data):
+    earthquakes_per_year = number_of_earthquakes_per_year(data)
+    years = sorted(earthquakes_per_year.keys())
+    plt.plot(years, [earthquakes_per_year[year] for year in years])
+    plt.show()
+plot_earthquakes_per_year(data)
+
+def plot_average_magnitude_per_year(data):
+    average_magnitude_per_year = average_magitude_per_year(data)
+    years = sorted(average_magnitude_per_year.keys())
+    plt.plot(years, [average_magnitude_per_year[year] for year in years])
+    plt.show()
+plot_average_magnitude_per_year(data)
