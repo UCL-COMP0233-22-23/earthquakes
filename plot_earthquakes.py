@@ -78,6 +78,7 @@ def plot_average_magnitude_per_year(earthquakes):
     y_data = [np.mean(list(data.values())[i]) for i in range(len(x_data))]
     plt.plot(x_data,y_data)
     plt.xlabel("Year")
+    plt.xticks(x_data, rotation=45)
     plt.ylabel("Average Earthquake Magnitude")
     plt.title("Average Earthquake Magnitude by Year")
     plt.savefig("plot_average_magnitude_per_year.png")
@@ -90,6 +91,7 @@ def plot_number_per_year(earthquakes):
     y_data = [len(list(data.values())[i]) for i in range (len(x_data))]
     plt.plot(x_data,y_data)
     plt.xlabel("Year")
+    plt.xticks(x_data, rotation=45)
     plt.ylabel("Number of Earthquakes")
     plt.title("Number of Recorded Earthquakes by Year")
     plt.savefig("plot_number_per_year.png")
