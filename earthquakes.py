@@ -5,6 +5,11 @@
 import requests
 import json
 
+from datetime import date
+
+import matplotlib.pyplot as plt
+import numpy as np
+
 
 def get_data():
     # With requests, we can ask the web service for the data.
@@ -67,3 +72,66 @@ max_magnitude, max_location = get_maximum(data)
 print(f"The strongest earthquake was at {max_location} with magnitude {max_magnitude}")
 
 ##The strongest earthquake was at [[-2.15, 52.52], [-0.332, 53.403]] with magnitude 4.8
+
+
+def get_year(earthquake):
+    """Extract the year in which an earthquake happened."""
+    timestamp = earthquake['properties']['time']
+    # The time is given in a strange-looking but commonly-used format.
+    # To understand it, we can look at the documentation of the source data:
+    # https://earthquake.usgs.gov/data/comcat/index.php#time
+    # Fortunately, Python provides a way of interpreting this timestamp:
+    # (Question for discussion: Why do we divide by 1000?)
+    year = date.fromtimestamp(timestamp/1000).year
+    return year
+
+
+
+
+# This is function you may want to create to break down the computations,
+# although it is not necessary. You may also change it to something different.
+def get_magnitudes_per_year(earthquakes):
+    """Retrieve the magnitudes of all the earthquakes in a given year.
+    
+    Returns a dictionary with years as keys, and lists of magnitudes as values.
+    """
+    #hi = []
+    # return {  get_year(i):  hi.append(get_magnitude(i)) for i in earthquakes }
+    years = [get_year(i) for i in earthquakes]
+    magnitudes = [get_magnitude(i) for i in earthquakes]
+    output = {}
+    for i in range(len(years)):
+        if years[i] not in output.keys():
+            output[years[i]] = [magnitudes[i]]
+        else:
+            output[years[i]] += [magnitudes[i]]
+    
+    
+    return output
+
+
+
+def plot_average_magnitude_per_year(earthquakes):
+    magntiudes_per_year = get_magnitudes_per_year(earthquakes)
+    x = magntiudes_per_year.keys()
+    y = [np.average(magntiudes_per_year[i]) for i in x]
+    plt.figure()
+    plt.plot(x,y)
+    plt.show()
+    
+
+
+def plot_number_per_year(earthquakes):
+    ...
+
+
+
+# Get the data we will work with
+quakes = get_data()['features']
+# Plot the results - this is not perfect since the x axis is shown as real
+# numbers rather than integers, which is what we would prefer!
+# plot_number_per_year(quakes)
+# plt.clf()  # This clears the figure, so that we don't overlay the two plots
+# plot_average_magnitude_per_year(quakes)
+
+print(plot_average_magnitude_per_year(quakes))
