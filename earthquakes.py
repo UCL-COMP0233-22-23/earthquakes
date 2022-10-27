@@ -28,34 +28,57 @@ def get_data():
     # to a file and open it in VS Code or a browser.
     # See the README file for more information.
     ...
+    import json
+    with open('earthquakes_data.json', 'w') as f:
+        f.write(text)   # On Mac Shift + Option + F to format automatically
+    
+    with open('earthquakes_data.json', 'r') as f:
+        text_json = json.loads(f.read())    # return dict 
+
+    # print(type(text_json))
 
     # We need to interpret the text to get values that we can work with.
     # What format is the text in? How can we load the values?
-    return ...
+    return text_json
 
 def count_earthquakes(data):
     """Get the total number of earthquakes in the response."""
-    return ...
+
+    return len(data['features'])
 
 
 def get_magnitude(earthquake):
     """Retrive the magnitude of an earthquake item."""
-    return ...
+
+    mag = []
+    for eq in earthquake:
+        mag.append(float(eq['properties']['mag']))
+    return mag
 
 
 def get_location(earthquake):
     """Retrieve the latitude and longitude of an earthquake item."""
     # There are three coordinates, but we don't care about the third (altitude)
-    return ...
+
+    loc = []
+    for eq in earthquake:
+        loc.append((eq['geometry']['coordinates'][0], eq['geometry']['coordinates'][1]))
+
+    return loc
 
 
 def get_maximum(data):
     """Get the magnitude and location of the strongest earthquake in the data."""
-    ...
+
+    mag_max = max([float(eq['properties']['mag']) for eq in data['features']])
+    mag_max_eq = [eq for eq in data['features'] if eq['properties']['mag'] == mag_max]
+    print(mag_max)
+    print(type(mag_max_eq))
+    return get_magnitude(mag_max_eq), get_location(mag_max_eq)
 
 
 # With all the above functions defined, we can now call them and get the result
 data = get_data()
 print(f"Loaded {count_earthquakes(data)}")
 max_magnitude, max_location = get_maximum(data)
-print(f"The strongest earthquake was at {max_location} with magnitude {max_magnitude}")
+print(f"The strongest earthquake was at {max_location} with magnitude {max_magnitude}") # The strongest earthquake was at [(-2.15, 52.52), (-0.332, 53.403)] with magnitude [4.8, 4.8]
