@@ -46,29 +46,38 @@ def get_magnitudes_per_year(earthquakes):
             legend[year] = [get_magnitude(eq)]
     return legend
             
-
-
 def plot_average_magnitude_per_year(earthquakes):
     quakes_year = get_magnitudes_per_year(earthquakes)
-    keys = quakes_year.keys()
-    plt.plot([sum(quakes_year[year])/len(quakes_year[year]) for year in keys])
-    plt.title("Average magnitude of earthquakes per year")
-    plt.xlabel("Years")
-    plt.ylabel("Average magnitude earthquakes per year")
-    plt.show()
+    x_values = []
+    for key in quakes_year.keys():
+        x_values.append(str(key))
+    plt.figure(figsize=(15,9),dpi=100)
+    graph, axes = plt.subplots()
+    axes.set_title("Avergae magnitude of earthquakes per year")
+    axes.set_xlabel("Years")
+    axes.set_ylabel("Avergae magnitude earthquakes per year")
+    y_values = [sum(quakes_year[year])/len(quakes_year[year]) for year in quakes_year.keys()]
+    plt.bar(x_values,y_values,width=0.5)
+    plt.show() #to show the plot!!!
 
 
 def plot_number_per_year(earthquakes):
     quakes_year = get_magnitudes_per_year(earthquakes)
-    keys = quakes_year.keys()
-    plt.plot([len(quakes_year[i]) for i in keys])
-    plt.title("Number of earthquakes per year")
-    plt.xlabel("Years")
-    plt.ylabel("Number earthquakes per year")
+    x_values = []
+    for key in quakes_year.keys():
+        x_values.append(str(key))
+    plt.figure(figsize=(15,9),dpi=100)
+    graph, axes = plt.subplots()
+    axes.set_title("Number of earthquakes per year")
+    axes.set_xlabel("Years")
+    axes.set_ylabel("Number earthquakes per year")
+    y_values = [len(quakes_year[i]) for i in quakes_year.keys()]
+    plt.bar(x_values,y_values,width=0.5)
     plt.show() #to show the plot!!! 
 
 # Get the data we will work with
 quakes = get_data()['features']
+#print(get_magnitudes_per_year(quakes).keys())
 # Plot the results - this is not perfect since the x axis is shown as real
 # numbers rather than integers, which is what we would prefer!
 plot_number_per_year(quakes)
