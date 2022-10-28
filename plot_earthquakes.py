@@ -53,9 +53,9 @@ def plot_average_magnitude_per_year(earthquakes):
         x_values.append(str(key))
     plt.figure(figsize=(15,9),dpi=100)
     graph, axes = plt.subplots()
-    axes.set_title("Avergae magnitude of earthquakes per year")
+    axes.set_title("Average magnitude of earthquakes per year")
     axes.set_xlabel("Years")
-    axes.set_ylabel("Avergae magnitude earthquakes per year")
+    axes.set_ylabel("Average magnitude earthquakes per year")
     y_values = [sum(quakes_year[year])/len(quakes_year[year]) for year in quakes_year.keys()]
     plt.bar(x_values,y_values,width=0.5)
     plt.show() #to show the plot!!!
@@ -77,7 +77,6 @@ def plot_number_per_year(earthquakes):
 
 # Get the data we will work with
 quakes = get_data()['features']
-#print(get_magnitudes_per_year(quakes).keys())
 # Plot the results - this is not perfect since the x axis is shown as real
 # numbers rather than integers, which is what we would prefer!
 plot_number_per_year(quakes)
