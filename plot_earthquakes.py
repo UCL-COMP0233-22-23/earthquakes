@@ -49,24 +49,28 @@ def get_magnitudes_per_year(earthquakes):
 
 
 def plot_average_magnitude_per_year(earthquakes):
-    #quakes_year = get_magnitudes_per_year(earthquakes)
-    #keys = quakes_year.keys()
-    #mag_per_year = [sum([mag for mag in quakes_year[year] for year in keys])]
-    #return plt.plot([mag_per_year for year in keys])
-    return ...
+    quakes_year = get_magnitudes_per_year(earthquakes)
+    keys = quakes_year.keys()
+    plt.plot([sum(quakes_year[year])/len(quakes_year[year]) for year in keys])
+    plt.title("Average magnitude of earthquakes per year")
+    plt.xlabel("Years")
+    plt.ylabel("Average magnitude earthquakes per year")
+    plt.show()
 
 
 def plot_number_per_year(earthquakes):
     quakes_year = get_magnitudes_per_year(earthquakes)
     keys = quakes_year.keys()
     plt.plot([len(quakes_year[i]) for i in keys])
+    plt.title("Number of earthquakes per year")
+    plt.xlabel("Years")
+    plt.ylabel("Number earthquakes per year")
     plt.show() #to show the plot!!! 
 
 # Get the data we will work with
 quakes = get_data()['features']
-
 # Plot the results - this is not perfect since the x axis is shown as real
 # numbers rather than integers, which is what we would prefer!
 plot_number_per_year(quakes)
-#plt.clf()  # This clears the figure, so that we don't overlay the two plots
-#plot_average_magnitude_per_year(quakes)
+plt.clf()  # This clears the figure, so that we don't overlay the two plots
+plot_average_magnitude_per_year(quakes)
