@@ -98,7 +98,7 @@ def plot_number_per_year(earthquakes):
     plt.xlabel('Year')
     plt.ylabel('Number of Earthquakes')
     plt.savefig("Earthquake Number Per Year.png")
-    plt.show()
+    plt.show() 
 
 
 data = get_data()
