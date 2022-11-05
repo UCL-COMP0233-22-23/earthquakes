@@ -72,7 +72,6 @@ def get_magnitudes_per_year(earthquakes):
     return mag_per_y
 data = get_data()
 
-
 def plot_average_magnitude_per_year(earthquakes):
     mag_year = get_magnitudes_per_year(earthquakes)
     year = []
@@ -87,11 +86,20 @@ def plot_average_magnitude_per_year(earthquakes):
     plt.savefig("Averaged magnitude per year.png")
     plt.show()
 
-plot_average_magnitude_per_year(data['features'])
-'''
 def plot_number_per_year(earthquakes):
-    ...
-
+    mag_year = get_magnitudes_per_year(earthquakes)
+    year = []
+    num = []
+    for key, value in mag_year.items():
+        year += [key]
+        num += [len(value)]
+    plt.plot(year, num)    
+    plt.title("Number of earthquake per year")
+    plt.xlabel("Years")
+    plt.ylabel("Number")
+    plt.savefig("Number of earthquake per year.png")
+    plt.show()
+    
 
 
 # Get the data we will work with
@@ -102,4 +110,3 @@ quakes = get_data()['features']
 plot_number_per_year(quakes)
 plt.clf()  # This clears the figure, so that we don't overlay the two plots
 plot_average_magnitude_per_year(quakes)
-'''
