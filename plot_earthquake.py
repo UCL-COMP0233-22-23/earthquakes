@@ -34,10 +34,9 @@ def get_data():
     # What format is the text in? How can we load the values?
     return earthquake_data
 
-
-def get_year(earthquake):
+def get_year(earthquake, int):
     """Extract the year in which an earthquake happened."""
-    timestamp = earthquake['properties']['time']
+    timestamp = earthquake[int]['properties']['time']
     # The time is given in a strange-looking but commonly-used format.
     # To understand it, we can look at the documentation of the source data:
     # https://earthquake.usgs.gov/data/comcat/index.php#time
@@ -48,10 +47,9 @@ def get_year(earthquake):
     year = date.fromtimestamp(timestamp/1000).year
     return year
 
-
-def get_magnitude(earthquake):
+def get_magnitude(earthquake, int):
     """Retrive the magnitude of an earthquake item."""
-    return earthquake["properties"]["mag"]
+    return earthquake[int]["properties"]["mag"]
 #print(data['features'][3]['properties']['mag'])
 #need to notice, feature is the key of dictionary
 #the earthquake here stand for list
@@ -61,10 +59,19 @@ def get_magnitude(earthquake):
 # although it is not necessary. You may also change it to something different.
 def get_magnitudes_per_year(earthquakes):
     """Retrieve the magnitudes of all the earthquakes in a given year.
-    
     Returns a dictionary with years as keys, and lists of magnitudes as values.
     """
-    ...
+    count = len(earthquakes)
+    mag_per_y = {}
+    for i in range(count):
+        mag = get_magnitude(earthquakes,i)
+        year = get_year(earthquakes,i)
+        if year in mag_per_y:
+            mag_per_y[year] += [mag]
+        else:
+            mag_per_y[year] = [mag]
+    return mag_per_y
+data = get_data()
 
 
 def plot_average_magnitude_per_year(earthquakes):
