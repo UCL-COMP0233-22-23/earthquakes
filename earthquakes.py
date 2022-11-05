@@ -39,6 +39,7 @@ def get_data(dest_path):
 ### EDA
 
 path = os.getcwd()
+print(path)
 data = get_data(dest_path = path)
 
 
@@ -103,7 +104,7 @@ get_maximum(data)
 
 
 # With all the above functions defined, we can now call them and get the result
-data = get_data(dest_path = os.path.join(path, "earthquakes"))
+data = get_data(dest_path = path)
 print(f"Loaded {count_earthquakes(data)}")
 max_magnitude, max_location = get_maximum(data)
 print(f"The strongest earthquake was at {max_location} with magnitude {max_magnitude}")
@@ -115,13 +116,7 @@ print(f"The strongest earthquake was at {max_location} with magnitude {max_magni
 #### plotting the earthquakes ####
 
 from datetime import date
-
 import matplotlib.pyplot as plt
-
-
-def get_data():
-    """Retrieve the data we will be working with."""
-    ...
 
 
 def get_year(earthquake):
@@ -137,48 +132,10 @@ def get_year(earthquake):
 
 get_year(data["features"][0])
 
-all_years = [get_year(earthquake) for earthquake in data["features"]]
-
-unique_years = list(set(all_years))
-
-unique_years = sorted(unique_years)
-
-count = 0
-for earthquake in data["features"]:
-    if get_year(earthquake) == 2017:
-        count += 1
-    
-print(count)
-
-frequency ={}
-for i in unique_years:
-    count = 0
-    for j in all_years:
-        if j == i:
-            count += 1
-    frequency[i] = count
-    print(i, count)
-
-print(frequency)
-
-import matplotlib.pyplot as plt
-
-plt.plot(frequency.keys(), frequency.values(), "o")
-plt.show()
-
-
-
-
-#num_earthquakes = {}
-#num_earthquakes['year1'] = 
-2000: 1, 2001: 3
-# {year1: count1, year2: count2,...}
-#[{'year': x, 'count': y},...]
-
 
 def get_magnitude(earthquake):
     """Retrive the magnitude of an earthquake item."""
-    ...
+    return earthquake["properties"]["mag"]
 
 
 # This is function you may want to create to break down the computations,
@@ -188,20 +145,67 @@ def get_magnitudes_per_year(earthquakes):
     
     Returns a dictionary with years as keys, and lists of magnitudes as values.
     """
-    ...
+    magnitudes_per_year = {}
+    for earthquake in earthquakes:
+        year = get_year(earthquake)
+        magnitude = get_magnitude(earthquake)
+        if year not in magnitudes_per_year:  # if we haven't seen this year before, add it
+            magnitudes_per_year[year] = [magnitude]
+        else:  # otherwise record one more instance
+            magnitudes_per_year[year].append(magnitude)
+    return magnitudes_per_year
 
 
 def plot_average_magnitude_per_year(earthquakes):
-    ...
+
+    mags_per_year = get_magnitudes_per_year(quakes)
+    mean_mag_yr = {key: sum(val)/len(val) for key, val in mags_per_year.items()}
+
+    fig = plt.figure()
+
+    plt.bar(mean_mag_yr.keys(), mean_mag_yr.values())
+    plt.ylim(0,5)
+    ticks_x = list(range(min(mean_mag_yr.keys()), max(mean_mag_yr.keys())+1))
+    plt.xticks(ticks_x[0::2])
+    plt.xlabel("Year")
+    plt.ylabel("Mean earthquake magnitude")
+    plt.title("Mean earthquake magnitude per year")
+
+    return fig.show()
 
 
 def plot_number_per_year(earthquakes):
-    ...
+
+    # counting earthquakes per year 
+    all_years = [get_year(earthquake) for earthquake in earthquakes]
+    unique_years = sorted(list(set(all_years)))
+    frequency ={}
+    for i in unique_years:
+        count = 0
+        for j in all_years:
+            if j == i:
+                count += 1
+        frequency[i] = count
+
+    # plotting earthquakes per year in a bar chart 
+    
+    ticks_x = list(range(min(unique_years), max(unique_years)+1))
+    ticks_y = list(range(max(frequency.values())))
+    fig = plt.figure()
+    plt.bar(frequency.keys(), frequency.values(), label = frequency.keys())
+    plt.xticks(ticks_x[0::2])
+    plt.yticks(ticks_y[0::2])
+    plt.xlabel("Year")
+    plt.ylabel("Frequency")
+    plt.title("Earthquake frequencies between {min} and {max}".format(
+        min = min(unique_years), max = max(unique_years)))
+    return fig.show()
 
 
+################################################################################
 
 # Get the data we will work with
-quakes = get_data()['features']
+quakes = data['features']
 
 # Plot the results - this is not perfect since the x axis is shown as real
 # numbers rather than integers, which is what we would prefer!
