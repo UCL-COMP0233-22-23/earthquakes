@@ -2,8 +2,8 @@
 # over the Internet.
 # However, we will use a more powerful and simpler library called requests.
 # This is external library that you may need to install first.
-import requests
 import pandas as pd
+import requests
 
 
 def get_data():
